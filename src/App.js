@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
 import Projects from './components/Projects';
@@ -17,12 +17,42 @@ function App() {
     <Router>
       <div className="app">
         <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/projects" element={<Projects />} />
+          {/* Public Routes with Header */}
+          <Route
+            path="/"
+            element={
+              <div className="app-container">
+                <Header />
+                <div className="main-content standalone">
+                  <Register />
+                </div>
+              </div>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <div className="app-container">
+                <Header />
+                <div className="main-content standalone">
+                  <Login />
+                </div>
+              </div>
+            }
+          />
+          <Route
+            path="/projects"
+            element={
+              <div className="app-container">
+                <Header />
+                <div className="main-content standalone">
+                  <Projects />
+                </div>
+              </div>
+            }
+          />
 
-          {/* Protected Routes (Dashboard and related pages) */}
+          {/* Protected Routes with Header and Sidebar */}
           <Route
             path="/dashboard"
             element={
@@ -93,6 +123,9 @@ function App() {
               </div>
             }
           />
+
+          {/* Default Route for Unmatched Paths */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
     </Router>

@@ -1,5 +1,7 @@
 .projects {
     padding: 40px;
+    margin: 0 auto;
+    max-width: 1200px; /* Adjust max-width to match the content width of other pages */
   }
   
   .projects-title {
@@ -33,10 +35,12 @@
     cursor: pointer;
   }
   
-  .project-card img {
+  .project-card img,
+  .project-card svg {
     width: 100px;
     height: 100px;
     margin-bottom: 10px;
+    color: #333; /* Adjust icon color if needed */
   }
   
   .project-card p {
@@ -47,10 +51,4 @@
   .project-card:hover {
     transform: scale(1.05);
     transition: transform 0.2s;
-  }
-  .project-icon {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-    color: #333; 
   }
