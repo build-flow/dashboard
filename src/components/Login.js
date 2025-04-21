@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/api';
 import './Login.css';
 
 function Login() {
@@ -7,7 +8,7 @@ function Login() {
     companyEmail: '',
     password: '',
   });
-
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -18,16 +19,30 @@ function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate login (e.g., authenticate with backend)
-    // For now, just redirect to the projects page
-    navigate('/projects');
+    setError('');
+
+    try {
+      const response = await loginUser({
+        email: formData.companyEmail,
+        password: formData.password,
+      });
+      if (response.data.success && response.data.token) {
+        localStorage.setItem('token', response.data.token); // Store Sanctum token
+        navigate('/projects');
+      } else {
+        setError(response.data.message || 'Login failed. Please check your credentials.');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred during login.');
+    }
   };
 
   return (
     <div className="login">
       <h2 className="login-title">Log In</h2>
+      {error && <p className="error-message">{error}</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="companyEmail">Company Email</label>
